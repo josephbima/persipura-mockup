@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa";
 import { IoMdFootball } from "react-icons/io";
-import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
+import { HiOutlineMenu } from "react-icons/hi";
 import { FiShoppingCart } from "react-icons/fi";
 import { useState } from "react";
 
