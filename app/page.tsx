@@ -105,6 +105,18 @@ export default function Home() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [delivery, setDelivery] = useState(DELIVERIES[0].id);
+  
+  // Mobile menu state
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+
+  // Scroll to section function
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    setShowMobileMenu(false);
+  };
 
   // Jersey selection state
   const [selectedVariant, setSelectedVariant] = useState("home");
@@ -179,14 +191,14 @@ export default function Home() {
             </div>
             <div className="hidden md:flex space-x-6">
               <a href="#" className="hover:text-yellow-400 transition-colors">BERANDA</a>
-              <a href="#" className="hover:text-yellow-400 transition-colors">TIM</a>
+              {/* <a href="#" className="hover:text-yellow-400 transition-colors">TIM</a> */}
               <a href="#" className="hover:text-yellow-400 transition-colors">BERITA</a>
-              <a href="#" className="hover:text-yellow-400 transition-colors">TIKET</a>
-              <a href="#" className="hover:text-yellow-400 transition-colors">TOKO</a>
+              {/* <a href="#" className="hover:text-yellow-400 transition-colors">TIKET</a>
+              <a href="#" className="hover:text-yellow-400 transition-colors">TOKO</a> */}
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            <button
+            {/* <button
               className="relative"
               onClick={() => setShowCart(v => !v)}
               aria-label="Keranjang Belanja"
@@ -197,13 +209,71 @@ export default function Home() {
                   {cart.length}
                 </span>
               )}
-            </button>
-            <button className="md:hidden">
+            </button> */}
+            <button 
+              className="md:hidden"
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+            >
               <HiOutlineMenu className="h-6 w-6" />
             </button>
           </div>
         </div>
       </nav>
+
+      {/* Mobile Menu */}
+      {showMobileMenu && (
+        <div className="md:hidden fixed inset-0 bg-black/50 z-50">
+          <div className="bg-white h-full w-80 shadow-xl p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-3">
+                <Image
+                  src="/persipura-logo.png"
+                  alt="Persipura Logo"
+                  width={32}
+                  height={32}
+                />
+                <div className="text-xl font-bold text-black">PERSIPURA</div>
+              </div>
+              <button 
+                onClick={() => setShowMobileMenu(false)}
+                className="text-2xl text-gray-400 hover:text-black"
+              >
+                &times;
+              </button>
+            </div>
+            <nav className="space-y-4">
+              {/* <a 
+                href="#" 
+                className="block py-3 text-black font-semibold border-b border-gray-200 hover:text-yellow-600 transition-colors"
+                onClick={() => setShowMobileMenu(false)}
+              >
+                BERANDA
+              </a> */}
+              <a 
+                href="#" 
+                className="block py-3 text-black font-semibold border-b border-gray-200 hover:text-yellow-600 transition-colors"
+                onClick={() => scrollToSection('news')}
+              >
+                BERITA
+              </a>
+              {/* <a 
+                href="#" 
+                className="block py-3 text-black font-semibold border-b border-gray-200 hover:text-yellow-600 transition-colors"
+                onClick={() => setShowMobileMenu(false)}
+              >
+                JERSEY
+              </a> */}
+              <a 
+                href="#" 
+                className="block py-3 text-black font-semibold border-b border-gray-200 hover:text-yellow-600 transition-colors"
+                onClick={() => scrollToSection('schedule')}
+              >
+                JADWAL
+              </a>
+            </nav>
+          </div>
+        </div>
+      )}
 
       {/* Cart Drawer/Modal */}
       {showCart && (
@@ -308,7 +378,7 @@ export default function Home() {
           {/* Full background squad image, low opacity */}
           <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
             <Image
-              src="/persipura-squad.png"
+              src="/hero.png"
               alt="Persipura Squad"
               fill
               style={{ objectFit: 'cover', opacity: 0.20 }}
@@ -336,11 +406,16 @@ export default function Home() {
                 Mutiara Hitam Papua - Kebanggaan Tanah Papua! Bergabunglah dengan keluarga Persipura dan rasakan semangat sepak bola Indonesia.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors">
-                  BELI JERSEY
+                <button 
+                  className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors"
+                  onClick={() => scrollToSection('news')}
+                >
+                  BERITA TERKINI
                 </button>
-                <button className="border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black px-8 py-4 rounded-lg text-lg font-semibold transition-colors">
-                  TONTON LANGSUNG
+                <button className="border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black px-8 py-4 rounded-lg text-lg font-semibold transition-colors"
+                  onClick={() => scrollToSection('schedule')}
+                >
+                  LIHAT JADWAL
                 </button>
               </div>
             </div>
@@ -379,6 +454,101 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+                {/* News Section */}
+                <section id="news" className="py-16 px-4 bg-white">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-black">BERITA TERBARU</h2>
+              <a href="#" className="text-black text-sm font-semibold border-b border-black hover:text-yellow-600 transition-colors">Lihat Semua</a>
+            </div>
+            {/* Recommended image size: 300x400px or 600x800px (3:4 ratio, portrait) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              {/* News Card 1 */}
+              <div className="bg-white">
+                <div className="aspect-[3/4] w-full relative rounded-lg overflow-hidden mb-4">
+                  <Image src="/news1.png" alt="Berita 1" fill style={{objectFit:'cover'}} className="" />
+                </div>
+                <div className="text-xs text-gray-500 font-semibold mb-1">LIGA 2 — 2 jam lalu</div>
+                <div className="text-black text-lg font-bold">Persipura Siap Hadapi Laga Penting di Mandala</div>
+              </div>
+              {/* News Card 2 */}
+              <div className="bg-white">
+                <div className="aspect-[3/4] w-full relative rounded-lg overflow-hidden mb-4">
+                  <Image src="/news2.png" alt="Berita 2" fill style={{objectFit:'cover'}} className="" />
+                </div>
+                <div className="text-xs text-gray-500 font-semibold mb-1">TRANSFER — 3 jam lalu</div>
+                <div className="text-black text-lg font-bold">Pemain Baru Resmi Bergabung dengan Persipura</div>
+              </div>
+              {/* News Card 3 */}
+              <div className="bg-white">
+                <div className="aspect-[3/4] w-full relative rounded-lg overflow-hidden mb-4">
+                  <Image src="/news3.png" alt="Berita 3" fill style={{objectFit:'cover'}} className="" />
+                </div>
+                <div className="text-xs text-gray-500 font-semibold mb-1">KLUB — 5 jam lalu</div>
+                <div className="text-black text-lg font-bold">Latihan Intensif Jelang Derby Papua</div>
+              </div>
+              {/* News Card 4 */}
+              <div className="bg-white">
+                <div className="aspect-[3/4] w-full relative rounded-lg overflow-hidden mb-4">
+                  <Image src="/news4.png" alt="Berita 4" fill style={{objectFit:'cover'}} className="" />
+                </div>
+                <div className="text-xs text-gray-500 font-semibold mb-1">SUPPORTER — 6 jam lalu</div>
+                <div className="text-black text-lg font-bold">Dukungan Suporter Membanjiri Stadion Mandala</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        {/* Sponsor Section - Animated, Black Background, White Logos */}
+        <section className="py-12 px-4 bg-black">
+          <div className="max-w-7xl mx-auto">
+            <div className="mb-8">
+              <h2 className="sr-only">Sponsor Kami</h2>
+            </div>
+            <div className="relative">
+              {/* Animated sponsor logos */}
+              <div className="overflow-hidden">
+                <div className="flex gap-24 animate-sponsor-scroll items-center">
+                  {/* Replace these with <Image> and your real sponsor logos */}
+                  <span className="block w-48 h-16 flex items-center justify-center">
+                    <span className="text-white text-3xl font-bold">Gate.io</span>
+                  </span>
+                  <span className="block w-48 h-16 flex items-center justify-center">
+                    <span className="text-white text-3xl font-bold">U-Power</span>
+                  </span>
+                  <span className="block w-48 h-16 flex items-center justify-center">
+                    <span className="text-white text-3xl font-bold">QATAR AIRWAYS</span>
+                  </span>
+                  <span className="block w-48 h-16 flex items-center justify-center">
+                    <span className="text-white text-3xl font-bold">visit QATAR</span>
+                  </span>
+                  {/* Repeat for seamless loop */}
+                  <span className="block w-48 h-16 flex items-center justify-center">
+                    <span className="text-white text-3xl font-bold">Gate.io</span>
+                  </span>
+                  <span className="block w-48 h-16 flex items-center justify-center">
+                    <span className="text-white text-3xl font-bold">U-Power</span>
+                  </span>
+                  <span className="block w-48 h-16 flex items-center justify-center">
+                    <span className="text-white text-3xl font-bold">QATAR AIRWAYS</span>
+                  </span>
+                  <span className="block w-48 h-16 flex items-center justify-center">
+                    <span className="text-white text-3xl font-bold">visit QATAR</span>
+                  </span>
+                </div>
+              </div>
+              {/* Semua partner link */}
+              <div className="mt-8">
+                <a href="#" className="text-white text-lg font-semibold border-b-2 border-white pb-1 inline-block hover:text-yellow-400 transition-colors">Sponsor Kami</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+       
+
 
 
         {/* Jersey Shop Section */}
@@ -521,11 +691,36 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Collection Section */}
+         {/* Stats Section */}
+         <section className="py-16 px-6 lg:px-12 bg-black text-white">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+              Statistik Klub
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              <div>
+                <div className="text-4xl md:text-5xl font-bold text-yellow-400 mb-2">4</div>
+                <div className="text-gray-300">Gelar Liga Indonesia</div>
+              </div>
+              <div>
+                <div className="text-4xl md:text-5xl font-bold text-yellow-400 mb-2">2</div>
+                <div className="text-gray-300">Piala Indonesia</div>
+              </div>
+              <div>
+                <div className="text-4xl md:text-5xl font-bold text-yellow-400 mb-2">1963</div>
+                <div className="text-gray-300">Tahun Berdiri</div>
+              </div>
+              <div>
+                <div className="text-4xl md:text-5xl font-bold text-yellow-400 mb-2">60+</div>
+                <div className="text-gray-300">Tahun Sejarah</div>
+              </div>
+            </div>
+          </div>
+        </section>
 
 
         {/* Fixtures Section */}
-        <section className="py-12 px-4 bg-gray-50">
+        <section id="schedule" className="py-12 px-4 bg-gray-50">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-2xl md:text-3xl font-bold text-black">JADWAL PERTANDINGAN</h2>
@@ -562,123 +757,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Sponsor Section - Animated, Black Background, White Logos */}
-        <section className="py-12 px-4 bg-black">
-          <div className="max-w-7xl mx-auto">
-            <div className="mb-8">
-              <h2 className="sr-only">Sponsor Kami</h2>
-            </div>
-            <div className="relative">
-              {/* Animated sponsor logos */}
-              <div className="overflow-hidden">
-                <div className="flex gap-24 animate-sponsor-scroll items-center">
-                  {/* Replace these with <Image> and your real sponsor logos */}
-                  <span className="block w-48 h-16 flex items-center justify-center">
-                    <span className="text-white text-3xl font-bold">Gate.io</span>
-                  </span>
-                  <span className="block w-48 h-16 flex items-center justify-center">
-                    <span className="text-white text-3xl font-bold">U-Power</span>
-                  </span>
-                  <span className="block w-48 h-16 flex items-center justify-center">
-                    <span className="text-white text-3xl font-bold">QATAR AIRWAYS</span>
-                  </span>
-                  <span className="block w-48 h-16 flex items-center justify-center">
-                    <span className="text-white text-3xl font-bold">visit QATAR</span>
-                  </span>
-                  {/* Repeat for seamless loop */}
-                  <span className="block w-48 h-16 flex items-center justify-center">
-                    <span className="text-white text-3xl font-bold">Gate.io</span>
-                  </span>
-                  <span className="block w-48 h-16 flex items-center justify-center">
-                    <span className="text-white text-3xl font-bold">U-Power</span>
-                  </span>
-                  <span className="block w-48 h-16 flex items-center justify-center">
-                    <span className="text-white text-3xl font-bold">QATAR AIRWAYS</span>
-                  </span>
-                  <span className="block w-48 h-16 flex items-center justify-center">
-                    <span className="text-white text-3xl font-bold">visit QATAR</span>
-                  </span>
-                </div>
-              </div>
-              {/* Semua partner link */}
-              <div className="mt-8">
-                <a href="#" className="text-white text-lg font-semibold border-b-2 border-white pb-1 inline-block hover:text-yellow-400 transition-colors">Sponsor Kami</a>
-              </div>
-            </div>
-          </div>
-        </section>
 
-        {/* News Section */}
-        <section className="py-16 px-4 bg-white">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl md:text-3xl font-bold text-black">BERITA TERBARU</h2>
-              <a href="#" className="text-black text-sm font-semibold border-b border-black hover:text-yellow-600 transition-colors">Lihat Semua</a>
-            </div>
-            {/* Recommended image size: 300x400px or 600x800px (3:4 ratio, portrait) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-              {/* News Card 1 */}
-              <div className="bg-white">
-                <div className="aspect-[3/4] w-full relative rounded-lg overflow-hidden mb-4">
-                  <Image src="/news1.png" alt="Berita 1" fill style={{objectFit:'cover'}} className="" />
-                </div>
-                <div className="text-xs text-gray-500 font-semibold mb-1">LIGA 2 — 2 jam lalu</div>
-                <div className="text-black text-lg font-bold">Persipura Siap Hadapi Laga Penting di Mandala</div>
-              </div>
-              {/* News Card 2 */}
-              <div className="bg-white">
-                <div className="aspect-[3/4] w-full relative rounded-lg overflow-hidden mb-4">
-                  <Image src="/news2.png" alt="Berita 2" fill style={{objectFit:'cover'}} className="" />
-                </div>
-                <div className="text-xs text-gray-500 font-semibold mb-1">TRANSFER — 3 jam lalu</div>
-                <div className="text-black text-lg font-bold">Pemain Baru Resmi Bergabung dengan Persipura</div>
-              </div>
-              {/* News Card 3 */}
-              <div className="bg-white">
-                <div className="aspect-[3/4] w-full relative rounded-lg overflow-hidden mb-4">
-                  <Image src="/news3.png" alt="Berita 3" fill style={{objectFit:'cover'}} className="" />
-                </div>
-                <div className="text-xs text-gray-500 font-semibold mb-1">KLUB — 5 jam lalu</div>
-                <div className="text-black text-lg font-bold">Latihan Intensif Jelang Derby Papua</div>
-              </div>
-              {/* News Card 4 */}
-              <div className="bg-white">
-                <div className="aspect-[3/4] w-full relative rounded-lg overflow-hidden mb-4">
-                  <Image src="/news4.png" alt="Berita 4" fill style={{objectFit:'cover'}} className="" />
-                </div>
-                <div className="text-xs text-gray-500 font-semibold mb-1">SUPPORTER — 6 jam lalu</div>
-                <div className="text-black text-lg font-bold">Dukungan Suporter Membanjiri Stadion Mandala</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Stats Section */}
-        <section className="py-16 px-6 lg:px-12 bg-black text-white">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-              Statistik Klub
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div>
-                <div className="text-4xl md:text-5xl font-bold text-yellow-400 mb-2">4</div>
-                <div className="text-gray-300">Gelar Liga Indonesia</div>
-              </div>
-              <div>
-                <div className="text-4xl md:text-5xl font-bold text-yellow-400 mb-2">2</div>
-                <div className="text-gray-300">Piala Indonesia</div>
-              </div>
-              <div>
-                <div className="text-4xl md:text-5xl font-bold text-yellow-400 mb-2">1963</div>
-                <div className="text-gray-300">Tahun Berdiri</div>
-              </div>
-              <div>
-                <div className="text-4xl md:text-5xl font-bold text-yellow-400 mb-2">60+</div>
-                <div className="text-gray-300">Tahun Sejarah</div>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* Footer */}
         <footer className="bg-gray-900 text-white py-12 px-6 lg:px-12">
@@ -696,7 +775,9 @@ export default function Home() {
                   <h3 className="text-2xl font-bold text-yellow-400">PERSIPURA JAYAPURA</h3>
                 </div>
                 <p className="text-gray-300 mb-4">
-                  Kebanggaan Papua, mewakili tanah Papua dengan semangat, tradisi, dan keunggulan dalam sepak bola Indonesia.
+                Didirikan pada tahun 1963, Persipura merupakan salah satu klub sepak bola paling legendaris di Indonesia dengan sejarah yang kaya dan penuh prestasi.
+Persipura memiliki basis suporter terbesar di Indonesia Timur dan menjadi simbol kebanggaan serta identitas bagi masyarakat Papua, didukung oleh catatan prestasi yang mengesankan berupa empat gelar juara liga Indonesia.
+Dikenal dengan julukan “Mutiara Hitam,” Persipura saat ini berkompetisi di Liga 2 Indonesia, dengan tekad kuat untuk kembali ke kasta tertinggi Liga 1 dan merebut kembali kejayaannya di kancah sepak bola nasional.
                 </p>
                 <div className="flex space-x-4">
                   <a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">
